@@ -182,7 +182,7 @@ Designed by Team ASK Contact us:<br>
         const img = document.createElement('img');
         img.src = image.src;
         img.alt = image.name;
-
+        img.loading = 'lazy'; 
         const p = document.createElement('p');
         p.textContent = image.name;
 
