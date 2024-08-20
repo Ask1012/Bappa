@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Booking</title>
+    <title>Bappa Booking</title>
     <style>
         .navbar {
             
@@ -233,16 +233,20 @@ Designed by Team ASK Contact us:<br>
     }
 
     function bookImage(imageId, imageName) {
-        const email = "ak1074834@gmail.com"; // Replace with your email address
-        const subject = "Image Booking";
-        const body = `I would like to book the following image:\n\nImage ID: ${imageId}\nImage Name: ${imageName}`;
+    const phoneNumber = "8767565920"; // Replace with the WhatsApp phone number
+    const message = `Hey Atharv,I would like to book the following bappa:\n\nImage ID: ${imageId}\nImage Name: ${imageName}`;
 
-        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
-        setTimeout(() => {
-            alert('Your images booked successfully :)');
-        }, 4000);
-    }
+    // URL encode the message
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Construct the WhatsApp URL
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp with the pre-filled message
+    window.location.href = whatsappLink;
+
+    
+}
 </script>
 
 </body>
