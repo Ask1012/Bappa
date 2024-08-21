@@ -89,10 +89,17 @@
         }
 
         .image-box {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: #999; /* Optional: Change the border color on hover */
+}
 
         .image-box button {
             padding: 5px 10px;
