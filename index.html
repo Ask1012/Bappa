@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Booking</title>
     <style>
+.confetti {
+            position: absolute;
+             top:10px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            opacity: 0.9;
+            animation: confetti-fall 2s linear infinite;
+        }
 
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -314,10 +333,32 @@ document.head.appendChild(style);
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     
     // Open WhatsApp with the pre-filled message
-    window.location.href = whatsappLink;
-
-    
+    window.location.href = whatsappLink;    
 }
+    // Function to create a single confetti piece
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+
+            // Randomize position, color, and delay
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+
+            document.body.appendChild(confetti);
+
+            // Remove confetti after animation
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        // Generate multiple confetti pieces on page load
+        window.addEventListener('load', function() {
+            for (let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+        });
 </script>
 
 </body>
