@@ -228,37 +228,70 @@ Designed by Team ASK Contact us:<br>
 
     const container = document.getElementsByClassName('image-container')[0];
 
-    images.forEach(image => {
-        const box = document.createElement('div');
-        box.classList.add('image-box');
-
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = image.name;
-        img.loading = 'lazy'; 
-        const p = document.createElement('p');
-        p.textContent = image.name;
-
-        // Create Wishlist button
-        const wishlistBtn = document.createElement('button');
-        wishlistBtn.textContent = ' Add ';
-        wishlistBtn.classList.add('wishlist-button');
-        wishlistBtn.onclick = () => addToWishlist(image.id, image.name);
-
-        // Create Book button
-        const bookBtn = document.createElement('button');
-        bookBtn.textContent = 'Book';
-        bookBtn.onclick = () => bookImage(image.id, image.name);
-
-        // Append buttons to box
-        box.appendChild(img);
-        box.appendChild(p);
-        box.appendChild(wishlistBtn);
-        box.appendChild(bookBtn);
-
-        container.appendChild(box);
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src; // Use data-src attribute for lazy loading
+            img.onload = () => {
+                img.classList.add('fade-in'); // Add fade-in effect once the image is loaded
+            };
+            observer.unobserve(img); // Stop observing once the image is loaded
+        }
     });
+}, {
+    root: null, // Use the viewport as the root
+    rootMargin: '0px 0px 50px 0px', // Trigger loading 50px before the image enters the viewport
+    threshold: 0.1 // Load image when 10% of it is in view
+});
 
+images.forEach(image => {
+    const box = document.createElement('div');
+    box.classList.add('image-box');
+
+    const img = document.createElement('img');
+    img.dataset.src = image.src; // Use data-src for lazy loading
+    img.alt = image.name;
+    img.loading = 'lazy'; 
+
+    // Start observing the image for lazy loading
+    observer.observe(img);
+
+    const p = document.createElement('p');
+    p.textContent = image.name;
+
+    // Create Wishlist button
+    const wishlistBtn = document.createElement('button');
+    wishlistBtn.textContent = ' Add ';
+    wishlistBtn.classList.add('wishlist-button');
+    wishlistBtn.onclick = () => addToWishlist(image.id, image.name);
+
+    // Create Book button
+    const bookBtn = document.createElement('button');
+    bookBtn.textContent = 'Book';
+    bookBtn.onclick = () => bookImage(image.id, image.name);
+
+    // Append elements to box
+    box.appendChild(img);
+    box.appendChild(p);
+    box.appendChild(wishlistBtn);
+    box.appendChild(bookBtn);
+
+    container.appendChild(box);
+});
+
+// Add the fade-in CSS class for the effect
+const style = document.createElement('style');
+style.textContent = `
+    .fade-in {
+        opacity: 0;
+        transition: opacity 1s ease-in;
+    }
+    .fade-in {
+        opacity: 1;
+    }
+`;
+document.head.appendChild(style);
     function addToWishlist(imageId, imageName) {
         alert(`Added ${imageName} (ID: ${imageId}) to your wishlist.`);
     }
